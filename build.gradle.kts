@@ -1,5 +1,6 @@
 plugins {
     java
+    application
 }
 
 group = "net.jhorstmann"
@@ -13,6 +14,9 @@ configure<JavaPluginExtension> {
     sourceCompatibility = JavaVersion.VERSION_11
 }
 
+application {
+    mainClass.set("net.jhorstmann.parquetwriterexample.Main")
+}
 dependencies {
     implementation("javax.annotation:javax.annotation-api:1.3.2")
 
