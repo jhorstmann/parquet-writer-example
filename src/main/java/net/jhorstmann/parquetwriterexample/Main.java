@@ -51,7 +51,7 @@ public class Main {
 		Schema schema = Schema.createRecord("record", null, NAMESPACE, false, fields);
 
 		Configuration conf = new Configuration();
-		final HadoopOutputFile outputFile = HadoopOutputFile.fromPath(new Path("target/output.parquet"), conf);
+		final HadoopOutputFile outputFile = HadoopOutputFile.fromPath(new Path("output.parquet"), conf);
 
 		try (ParquetWriter<GenericRecord> parquetWriter = AvroParquetWriter.<GenericRecord>builder(outputFile)
 			.withSchema(schema)
