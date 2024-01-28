@@ -23,10 +23,10 @@ dependencies {
     implementation("org.slf4j:slf4j-api:1.7.32")
     implementation("org.slf4j:slf4j-simple:1.7.32")
 
-    implementation("org.apache.parquet:parquet-avro:1.11.1")
+    implementation("org.apache.parquet:parquet-avro:1.13.1")
 
     // exclude a bunch of hadoop stuff that is not needed for a standalone program
-    implementation("org.apache.hadoop:hadoop-common:3.2.2") {
+    implementation("org.apache.hadoop:hadoop-common:3.3.3") {
         exclude(group = "org.apache.hadoop.thirdparty", module = "hadoop-shaded-protobuf_3_7")
         exclude(group = "org.apache.curator")
         exclude(group = "org.apache.zookeeper")
@@ -43,6 +43,17 @@ dependencies {
         exclude(group = "org.slf4j")
         exclude(group = "log4j")
         exclude(group = "dnsjava")
+    }
+    // org.apache.hadoop.mapred.FileInputFormat seems to be needed for reading, but not for writing
+    implementation("org.apache.hadoop:hadoop-mapreduce-client-core:3.3.3") {
+        exclude(group = "org.apache.hadoop", module = "hadoop-hdfs-client")
+        exclude(group = "org.apache.hadoop", module = "hadoop-yarn-client")
+        exclude(group = "org.apache.hadoop", module = "hadoop-yarn-common")
+        exclude(group = "com.google.inject")
+        exclude(group = "com.google.inject.extensions")
+        exclude(group = "com.google.protobuf")
+        exclude(group = "io.netty")
+        exclude(group = "org.slf4j")
     }
 
     constraints {

@@ -6,10 +6,13 @@ import org.apache.avro.generic.GenericData;
 import org.apache.avro.generic.GenericRecord;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.Path;
+import org.apache.parquet.avro.AvroParquetReader;
 import org.apache.parquet.avro.AvroParquetWriter;
 import org.apache.parquet.hadoop.ParquetFileWriter;
+import org.apache.parquet.hadoop.ParquetReader;
 import org.apache.parquet.hadoop.ParquetWriter;
 import org.apache.parquet.hadoop.metadata.CompressionCodecName;
+import org.apache.parquet.hadoop.util.HadoopInputFile;
 import org.apache.parquet.hadoop.util.HadoopOutputFile;
 
 import java.io.IOException;
@@ -51,7 +54,8 @@ public class Main {
 		Schema schema = Schema.createRecord("record", null, NAMESPACE, false, fields);
 
 		Configuration conf = new Configuration();
-		final HadoopOutputFile outputFile = HadoopOutputFile.fromPath(new Path("output.parquet"), conf);
+		Path path = new Path("output.parquet");
+		HadoopOutputFile outputFile = HadoopOutputFile.fromPath(path, conf);
 
 		try (ParquetWriter<GenericRecord> parquetWriter = AvroParquetWriter.<GenericRecord>builder(outputFile)
 			.withSchema(schema)
@@ -71,6 +75,21 @@ public class Main {
 
 			parquetWriter.write(record);
 
+		}
+
+		HadoopInputFile inputFile = HadoopInputFile.fromPath(path, conf);
+
+		try (ParquetReader<GenericRecord> parquetReader = AvroParquetReader.<GenericRecord>builder(inputFile).build()) {
+			while (true) {
+				GenericRecord record = parquetReader.read();
+				if (record == null) {
+					break;
+				}
+				for (int i = 0; i < 8; i++) {
+					System.out.println(record.get(i));
+				}
+				System.out.println();
+			}
 		}
 
 	}
