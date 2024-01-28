@@ -42,11 +42,11 @@ public class Main {
 		List<Schema.Field> fields = new ArrayList<>(Arrays.asList(
 			new Schema.Field("required_string", Schema.create(STRING), null, DEFAULT_NULL),
 			new Schema.Field("optional_string", nullable(STRING), null, DEFAULT_NULL),
-			new Schema.Field("required_double", nullable(DOUBLE), null, DEFAULT_NULL),
+			new Schema.Field("required_double", Schema.create(DOUBLE), null, DEFAULT_NULL),
 			new Schema.Field("optional_double", nullable(DOUBLE), null, DEFAULT_NULL),
-			new Schema.Field("required_timestamp", nullable(TIMESTAMP_MILLIS), null, DEFAULT_NULL),
+			new Schema.Field("required_timestamp", TIMESTAMP_MILLIS, null, DEFAULT_NULL),
 			new Schema.Field("optional_timestamp", nullable(TIMESTAMP_MILLIS), null, DEFAULT_NULL),
-			new Schema.Field("required_bool", nullable(BOOLEAN), null, DEFAULT_NULL),
+			new Schema.Field("required_bool", Schema.create(BOOLEAN), null, DEFAULT_NULL),
 			new Schema.Field("optional_bool", nullable(BOOLEAN), null, DEFAULT_NULL)
 		));
 
